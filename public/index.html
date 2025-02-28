@@ -1,22 +1,95 @@
+<!-- public/index.html -->
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        input { padding: 10px; width: 200px; }
-        button { padding: 10px; cursor: pointer; }
-        #weather { margin-top: 20px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .weather-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border: 1px solid #007BFF;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #weather {
+            margin-top: 30px;
+        }
+
+        #weather h3 {
+            margin-bottom: 10px;
+            color: #007BFF;
+        }
+
+        #weather p {
+            color: #555;
+            margin: 5px 0;
+        }
     </style>
 </head>
-<body>
-    <h2>Weather App</h2>
-    <input type="text" id="city" placeholder="Enter city name">
-    <button onclick="getWeather()">Get Weather</button>
 
-    <div id="weather"></div>
+<body>
+    <div class="weather-container">
+        <h2>Weather App</h2>
+        <input type="text" id="city" placeholder="Enter city name" />
+        <button onclick="getWeather()">Get Weather</button>
+
+        <div id="weather"></div>
+    </div>
 
     <script>
         async function getWeather() {
@@ -26,22 +99,23 @@
             try {
                 const response = await fetch(`/weather?city=${city}`);
                 const data = await response.json();
-                
+
                 if (data.error) {
                     document.getElementById('weather').innerHTML = `<p>${data.error}</p>`;
                     return;
                 }
 
-                document.getElementById('weather').innerHTML = `
-                    <h3>${data.city}</h3>
-                    <p>Temperature: ${data.temperature}°C</p>
-                    <p>${data.description}</p>
-                    <img src="${data.icon}" alt="Weather Icon">
-                `;
+            document.getElementById('weather').innerHTML = `
+            <h3>${data.city}</h3>
+            <p>Temperature: ${data.temperature}°C</p>
+            <p>${data.description}</p>
+            <img src="${data.icon}" alt="Weather Icon">
+            `;
             } catch (error) {
                 document.getElementById('weather').innerHTML = `<p>Unable to fetch weather data</p>`;
             }
         }
     </script>
 </body>
+
 </html>

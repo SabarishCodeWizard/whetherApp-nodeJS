@@ -5,9 +5,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
 // const axios = require('axios');
-
+const mongoose = require('mongoose');
 
 
 const app = express();
@@ -20,17 +21,51 @@ const PORT = 8000;
 
 
 
-// Import routers after Firebase is initialized
-const weatherRouter = require('./router/weather.js');
 
-app.use(express.static(path.join(__dirname, 'public'))); // middleware to access a static files
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,  // This option tells Mongoose to use the new URL parser instead of the old one.
+    useUnifiedTopology: true // Prevents connection issues in some cases.
+}).then(() => console.log("MongoDB connected"))
+    .catch(err => console.log(err));
+
+
+
+const weatherRouter = require('./routes/weather.js');
+const authRoutes = require('./routes/auth');
+
+// app.use(express.static(path.join(__dirname, 'public'))); // middleware to access a static files
 app.use(cors()); // cross origin resource sharing
 app.use(bodyParser.json()); // middleware to parse the body of the request
 
+// Session Middleware (for authentication)
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'mysecret',
+    resave: false,
+    saveUninitialized: false
+}));
 
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
+
+app.get('/', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Use Auth Routes
+app.use('/auth', authRoutes);
 
 app.use(weatherRouter);
-// app.use('/admin', wheatherRouter);
+// app.use('/admin', weatherRouter);
 
 
 
