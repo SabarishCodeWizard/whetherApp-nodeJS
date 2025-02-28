@@ -1,0 +1,43 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const adminRoutes = require('./router/wheather');
+const http = require('http');
+const app = express();
+
+
+app.use(adminRoutes);
+app.use('/admin', adminRoutes); // it is a middleware
+
+
+// it is a middleware
+// app.use('/',(req,res,next) => {
+//     res.send('Hello World');
+//     console.log('First World');
+//     next();
+// })
+
+
+app.use(bodyParser.urlencoded());
+
+app.use('/second', (req, res, next) => {
+    // res.send('Hello World');
+    console.log('Second World');
+}) // always work as middleware
+
+
+app.get('/get', (req, res) => {
+    res.send('<H1>Get Request</H1><form action="/post" method="POST"><input type="text" name="name"><button type="submit">Submit</button></form>');
+}) // it a routing method 
+
+app.post('/post', (req, res) => {
+    res.send('Post Request');
+}) // it is a routing method 
+
+// const server = http.createServer(app);
+
+// server.listen(3000,(req,res) => {
+//     console.log('Server is running on http://localhost:3000');
+// })
+
+
+app.listen(3000, () => { console.log('Server is running on http://localhost:3000') })
