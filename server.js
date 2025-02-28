@@ -61,11 +61,17 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Use Auth Routes
+app.get('/guest', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html')); 
+});
+
+
+
 app.use('/auth', authRoutes);
 
-app.use(weatherRouter);
 // app.use('/admin', weatherRouter);
+app.use(weatherRouter);
+
 
 
 

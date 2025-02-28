@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Import User Model
+const User = require('../models/User'); 
 const router = express.Router();
 
 
@@ -37,6 +37,10 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
+router.get('/guest', (req, res) => {
+    res.json({ success: true, redirect: '/guest' });
+});
 
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {
