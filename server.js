@@ -65,6 +65,12 @@ app.get('/guest', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html')); 
 });
 
+app.get('/package', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    res.sendFile(path.join(__dirname, 'public', 'package.html')); 
+});
 
 
 app.use('/auth', authRoutes);

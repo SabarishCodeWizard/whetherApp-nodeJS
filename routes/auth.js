@@ -42,6 +42,11 @@ router.get('/guest', (req, res) => {
     res.json({ success: true, redirect: '/guest' });
 });
 
+router.get('/package', (req, res) => {
+    res.json({ success: true, redirect: '/package' });
+});
+
+
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/login');
