@@ -92,7 +92,7 @@ router.post('/forgot-password', async (req, res) => {
     }
 });
 
-// Reset Password Endpoint
+
 router.post('/reset-password', async (req, res) => {
     try {
         const { token, newPassword } = req.body;
