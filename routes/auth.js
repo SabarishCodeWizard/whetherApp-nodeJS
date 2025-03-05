@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); 
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const User = require('../models/User');
 const router = express.Router();
 
 
@@ -52,5 +54,59 @@ router.get('/logout', (req, res) => {
         res.redirect('/login');
     });
 });
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER, // Your email address
+        pass: process.env.EMAIL_PASS  // Your email password (or App Password if using Gmail)
+    }
+});
+
+// Forgot Password Endpoint
+router.post('/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        // Generate a password reset token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+        // Send reset email
+        const resetLink = `http://localhost:8000/reset-password?token=${token}`;
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: "Password Reset Request",
+            text: `Click the following link to reset your password: ${resetLink}`
+        });
+
+        res.json({ success: true, message: "Password reset link sent" });
+
+    } catch (error) {
+        res.status(500).json({ error: "Error processing request" });
+    }
+});
+
+// Reset Password Endpoint
+router.post('/reset-password', async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
+
+        res.json({ success: true, message: "Password reset successful" });
+
+    } catch (error) {
+        res.status(500).json({ error: "Invalid or expired token" });
+    }
+});
+
 
 module.exports = router;
