@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
+    <!-- Weather Input -->
     <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg text-center">
-        <h2 class="text-2xl font-semibold text-gray-700">🌤️ Weather App</h2>
-        <div class="mt-4 flex">
-            <input type="text" id="city" placeholder="Enter city name" 
-                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <h2 class="text-2xl font-semibold text-gray-700 flex items-center justify-center gap-2">
+            🌥️ Weather App
+        </h2>
+
+        <div class="mt-4 flex items-center space-x-2">
+            <div class="relative w-full">
+                <!-- Input Box -->
+                <input type="text" id="city" placeholder="Enter city name" 
+                    class="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    oninput="toggleClearButton()" />
+
+                <!-- Clear Button (❌) -->
+                <button id="clearBtn" onclick="clearInput()" 
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500 hidden">
+                    ❌
+                </button>
+            </div>
+
+            <!-- Get Weather Button -->
             <button onclick="getWeather()" 
-                class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                 Get Weather
             </button>
         </div>
@@ -30,6 +46,17 @@
     </div>
 
     <script>
+        function toggleClearButton() {
+            const input = document.getElementById('city');
+            const clearBtn = document.getElementById('clearBtn');
+            clearBtn.style.display = input.value ? 'block' : 'none';
+        }
+
+        function clearInput() {
+            document.getElementById('city').value = "";
+            toggleClearButton();
+        }
+
         async function getWeather() {
             const city = document.getElementById('city').value;
             if (!city) return alert("Please enter a city name");
