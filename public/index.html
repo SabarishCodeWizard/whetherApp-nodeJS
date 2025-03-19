@@ -1,38 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        .animate-slide-in {
-            animation: slideIn 0.5s ease-out;
-        }
-    </style>
 </head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
 
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
-    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">☀️ Weather App</h2>
-        <input type="text" id="city" placeholder="Enter city name" 
-            class="w-full p-2 border border-gray-300 rounded mb-4" />
-        <button onclick="getWeather()" 
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Get Weather</button>
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-semibold text-gray-700">🌤️ Weather App</h2>
+        <div class="mt-4 flex">
+            <input type="text" id="city" placeholder="Enter city name" 
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button onclick="getWeather()" 
+                class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                Get Weather
+            </button>
+        </div>
     </div>
-    
-    <div id="weather" class="absolute left-1/2 top-1/3 transform -translate-x-1/2 hidden w-full max-w-md p-4"></div>
+
+    <!-- Weather Output (Hidden Initially) -->
+    <div id="weatherCard" 
+        class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg rounded-lg p-6 w-80 text-center transition-all duration-500">
+        <button onclick="closeWeather()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">
+            ❌
+        </button>
+        <div id="weatherContent"></div>
+    </div>
 
     <script>
         async function getWeather() {
@@ -44,41 +39,26 @@
                 const data = await response.json();
 
                 if (data.error) {
-                    document.getElementById('weather').innerHTML = `
-                        <div class="bg-white p-4 rounded-lg shadow-lg animate-slide-in relative">
-                            <button onclick="closeWeather()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">✖</button>
-                            <p class='text-red-500'>${data.error} ❌</p>
-                        </div>
-                    `;
-                    document.getElementById('weather').classList.remove('hidden');
+                    document.getElementById('weatherContent').innerHTML = `<p class="text-red-500">${data.error}</p>`;
                     return;
                 }
 
-                document.getElementById('weather').innerHTML = `
-                    <div class="bg-white p-4 rounded-lg shadow-lg animate-slide-in relative">
-                        <button onclick="closeWeather()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">✖</button>
-                        <h3 class="text-xl font-semibold">${data.city} 🌍</h3>
-                        <p class="text-lg">Temperature: <span class="font-bold">${data.temperature}°C 🌡️</span></p>
-                        <p class="italic">${data.description} ☁️</p>
-                        <img src="${data.icon}" alt="Weather Icon" class="mx-auto mt-2" />
-                    </div>
+                document.getElementById('weatherContent').innerHTML = `
+                    <h3 class="text-xl font-semibold">${data.city} 🌍</h3>
+                    <p class="text-lg"><strong>Temperature:</strong> <span class="font-bold">${data.temperature}°C</span> 🌡️</p>
+                    <p class="italic">${data.description} ☁️</p>
+                    <img src="${data.icon}" alt="Weather Icon" class="mx-auto mt-2 w-16 h-16">
                 `;
-                document.getElementById('weather').classList.remove('hidden');
+
+                document.getElementById('weatherCard').classList.remove('hidden');
             } catch (error) {
-                document.getElementById('weather').innerHTML = `
-                    <div class="bg-white p-4 rounded-lg shadow-lg animate-slide-in relative">
-                        <button onclick="closeWeather()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">✖</button>
-                        <p class='text-red-500'>Unable to fetch weather data ❌</p>
-                    </div>
-                `;
-                document.getElementById('weather').classList.remove('hidden');
+                document.getElementById('weatherContent').innerHTML = `<p class="text-red-500">Unable to fetch weather data</p>`;
             }
         }
 
         function closeWeather() {
-            document.getElementById('weather').classList.add('hidden');
+            document.getElementById('weatherCard').classList.add('hidden');
         }
     </script>
 </body>
-
 </html>
