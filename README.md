@@ -1,4 +1,3 @@
-Here’s a more professional and well-formatted version of your README file for the **Weather App**:
 
 ---
 
