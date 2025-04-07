@@ -4,6 +4,8 @@ Here’s a more professional and well-formatted version of your README file for 
 
 # 🌤️ Weather App
 
+Live Demo: [https://bitweather-rz0n.onrender.com](https://bitweather-rz0n.onrender.com)
+
 A Node.js-based web application that displays real-time weather information using a third-party weather API. It also includes features like user authentication and database integration.
 
 ---
@@ -119,6 +121,4 @@ See the [LICENSE](LICENSE) file for more details.
 
 Developed by **Sabarish**  
 GitHub: [@SabarishCodeWizard](https://github.com/SabarishCodeWizard)
-
----
 
