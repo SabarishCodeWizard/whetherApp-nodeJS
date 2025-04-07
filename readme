@@ -1,0 +1,48 @@
+# Weather App
+
+This repository contains the source code for the Weather App, a simple application to display weather information in real-time.
+
+## Configuration
+
+Configure your application by setting the following environment variables in your `.env` file:
+
+```
+API_KEY=your_weather_api_key_here
+MONGO_URI=mongodb://localhost:27017/weatherDB
+JWT_SECRET=your_secure_jwt_secret_key
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_email_password
+SESSION_SECRET=your_secure_session_secret
+```
+
+## Installation
+
+1. Clone the repository:
+    ```
+    git clone https://github.com/SabarishCodeWizard/whetherApp-nodeJS.git
+    ```
+2. Navigate to the project directory:
+    ```
+    cd weather-app
+    ```
+3. Install the dependencies:
+    ```
+    npm install
+    ```
+
+## Usage
+
+1. Create a `.env` file in the root directory and add your configuration.
+2. Start the application:
+    ```
+    npm start
+    ```
+3. Open your browser and navigate to `http://localhost:3000` to view the app.
+
+## Contributing
+
+Contributions are welcome. Please open an issue or submit a pull request for any improvements or bug fixes.
+
+## License
+
+This project is licensed under the MIT License.
