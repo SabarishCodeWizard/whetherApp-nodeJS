@@ -77,8 +77,6 @@ SESSION_SECRET=your_secure_session_secret
 ```
 weather-app/
 │
-├── routes/             # Route definitions
-├── controllers/        # Business logic
 ├── models/             # Mongoose models
 ├── views/              # EJS templates or frontend files
 ├── public/             # Static assets (CSS, JS, images)
@@ -107,12 +105,6 @@ To contribute:
 4. Push to the branch (`git push origin feature-name`)
 5. Open a Pull Request
 
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.  
-See the [LICENSE](LICENSE) file for more details.
 
 ---
 
