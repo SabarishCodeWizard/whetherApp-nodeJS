@@ -78,10 +78,10 @@ SESSION_SECRET=your_secure_session_secret
 weather-app/
 │
 ├── models/             # Mongoose models
-├── views/              # EJS templates or frontend files
+├── routes/             # Routes details  
 ├── public/             # Static assets (CSS, JS, images)
 ├── .env                # Environment variables
-├── app.js              # Main application entry point
+├── server.js              # Main application entry point
 └── package.json        # Project metadata and dependencies
 ```
 
