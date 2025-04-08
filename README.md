@@ -15,7 +15,6 @@ A Node.js-based web application that displays real-time weather information usin
 - User registration & authentication (JWT-based)
 - Session management
 - MongoDB integration
-- Email notifications (if configured)
 - Responsive UI for various screen sizes
 
 ---
@@ -25,7 +24,6 @@ A Node.js-based web application that displays real-time weather information usin
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
 - **Authentication**: JWT, Express Session
-- **Templating**: EJS / Handlebars (depending on your setup)
 - **API**: OpenWeatherMap or any weather API
 
 ---
